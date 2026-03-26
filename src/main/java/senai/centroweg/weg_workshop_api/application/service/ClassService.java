@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 import senai.centroweg.weg_workshop_api.domain.model.Class;
 import senai.centroweg.weg_workshop_api.domain.model.User;
+import senai.centroweg.weg_workshop_api.domain.ports.ClassRepositoryPort;
+import senai.centroweg.weg_workshop_api.domain.ports.UserRepositoryPort;
 import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.ClassRepository;
 import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
 
@@ -13,14 +15,16 @@ import java.util.List;
 @Service
 public class ClassService {
 
-    private final ClassRepository classRepository;
-    private final UserRepository userRepository;
+    private final ClassRepositoryPort classRepository;
+    private final UserRepositoryPort userRepository;
 
-    @Autowired
-    public ClassService(ClassRepository classRepository, UserRepository userRepository) {
+    public ClassService(ClassRepositoryPort classRepository, UserRepositoryPort userRepository) {
         this.classRepository = classRepository;
         this.userRepository = userRepository;
     }
+
+    @Autowired
+
 
     public Class createClass(String name, Integer teacherId, List<Integer> studentIds) {
         User teacher = userRepository.findById(teacherId)

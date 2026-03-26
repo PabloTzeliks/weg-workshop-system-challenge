@@ -21,8 +21,8 @@ public record ServiceOrderResponseDTO(
         String reportedDefect,
 
         @JsonProperty("responsible_teacher")
-        @NotBlank(message = "Responsible Teacher is mandatory")
-        String responsibleTeacher,
+        @NotNull(message = "Responsible Teacher ID is mandatory")
+        Integer responsibleTeacher,
 
         @JsonProperty("students_id")
         @NotNull(message = "Students IDs is mandatory")

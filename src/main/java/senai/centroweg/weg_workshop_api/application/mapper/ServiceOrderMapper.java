@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class ServiceOrderMapper {
 
     public ServiceOrderResponseDTO toResponseDTO(ServiceOrder serviceOrder) {
-        return new ServiceOrderResponseDTO(serviceOrder.getId(), serviceOrder.getEquipment(), serviceOrder.getReportedDefect(), serviceOrder.getResponsibleTeacher(), serviceOrder.getStudents());
+        return new ServiceOrderResponseDTO(serviceOrder.getId(), serviceOrder.getEquipment(), serviceOrder.getReportedDefect(), null, null);
     }
 
     public ServiceOrder toEntity(ServiceOrderRequestDTO serviceOrderRequestDTO) {

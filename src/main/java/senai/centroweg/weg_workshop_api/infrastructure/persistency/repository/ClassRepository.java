@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ClassRepository extends JpaRepository<Class, Integer> {
-    List<Class> findByTeacherId(Integer teacherId);
+public interface ClassRepository extends JpaRepository<senai.centroweg.weg_workshop_api.domain.model.Class, Integer> {
+    List<senai.centroweg.weg_workshop_api.domain.model.Class> findByTeacherId(Integer teacherId);
 }

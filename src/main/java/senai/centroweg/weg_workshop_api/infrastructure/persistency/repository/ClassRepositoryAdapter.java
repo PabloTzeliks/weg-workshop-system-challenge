@@ -1,8 +1,9 @@
+package senai.centroweg.weg_workshop_api.infrastructure.persistency.repository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import senai.centroweg.weg_workshop_api.domain.model.Class;
 import senai.centroweg.weg_workshop_api.domain.ports.ClassRepositoryPort;
-import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.ClassRepository;
 
 import java.util.List;
 

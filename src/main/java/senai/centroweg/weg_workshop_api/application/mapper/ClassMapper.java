@@ -1,9 +1,9 @@
 package senai.centroweg.weg_workshop_api.application.mapper;
 
 import org.springframework.stereotype.Component;
+import senai.centroweg.weg_workshop_api.application.dto.request.ClassRequestDTO;
+import senai.centroweg.weg_workshop_api.application.dto.response.ClassResponseDTO;
 import senai.centroweg.weg_workshop_api.domain.model.Class;
-import senai.centroweg.weg_workshop_api.application.dto.ClassRequestDTO;
-import senai.centroweg.weg_workshop_api.application.dto.ClassResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,8 +16,7 @@ public class ClassMapper {
     }
 
     public Class toEntity(ClassRequestDTO classRequestDTO) {
-        // TODO: Fetch the teacher entity from the database using teacherId
-        return new Class(classRequestDTO.name(), null, null); // Replace null with actual teacher and student entities
+        return new Class(classRequestDTO.name(), null, null);
     }
 
     public List<ClassResponseDTO> toResponseDTOList(List<Class> classes) {
