@@ -6,8 +6,8 @@ import senai.centroweg.weg_workshop_api.domain.enums.StatusSO;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
 import senai.centroweg.weg_workshop_api.domain.model.User;
-import senai.centroweg.weg_workshop_api.domain.ports.ServiceOrderRepository;
-import senai.centroweg.weg_workshop_api.domain.ports.UserRepository;
+import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.ServiceOrderRepository;
+import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
 
 import java.util.List;
 

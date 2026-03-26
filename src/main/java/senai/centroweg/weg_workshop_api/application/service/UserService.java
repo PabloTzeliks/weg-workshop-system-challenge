@@ -3,7 +3,7 @@ package senai.centroweg.weg_workshop_api.application.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import senai.centroweg.weg_workshop_api.domain.model.User;
-import senai.centroweg.weg_workshop_api.domain.ports.UserRepository;
+import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 
 import java.util.List;

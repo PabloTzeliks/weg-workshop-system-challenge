@@ -1,4 +1,4 @@
-package senai.centroweg.weg_workshop_api.domain.ports;
+package senai.centroweg.weg_workshop_api.infrastructure.persistency.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

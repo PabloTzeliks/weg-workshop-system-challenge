@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 import senai.centroweg.weg_workshop_api.domain.model.Class;
 import senai.centroweg.weg_workshop_api.domain.model.User;
-import senai.centroweg.weg_workshop_api.domain.ports.ClassRepository;
-import senai.centroweg.weg_workshop_api.domain.ports.UserRepository;
+import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.ClassRepository;
+import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
 
 import java.util.List;
 
