@@ -33,9 +33,32 @@ public class ServiceOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     User responsibleTeacher;
 
-    @JoinColumn(name = "students")
     @ManyToMany()
+    @JoinTable(
+            name = "service_order_students",
+            joinColumns = @JoinColumn(name = "service_order_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     List<User> students;
+
+    public ServiceOrder(String equipment,
+                        String reportedDefect,
+                        String usedMaterials,
+                        String technicalConclusion,
+                        StatusSO status,
+                        User responsibleTeacher,
+                        List<User> students) {
+
+        this.equipment = equipment;
+        this.reportedDefect = reportedDefect;
+        this.usedMaterials = usedMaterials;
+        this.technicalConclusion = technicalConclusion;
+        this.status = status;
+        this.responsibleTeacher = responsibleTeacher;
+        this.students = students;
+    }
+
+    public ServiceOrder() { }
 
     public Integer getId() {
         return id;

@@ -19,8 +19,12 @@ public class Class {
     @ManyToOne()
     User teacher;
 
-    @JoinColumn(name = "students", nullable = false)
     @ManyToMany()
+    @JoinTable(
+            name = "service_order_students",
+            joinColumns = @JoinColumn(name = "service_order_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     List<User> students;
 
     public Class(String name, User teacher, List<User> students) {
