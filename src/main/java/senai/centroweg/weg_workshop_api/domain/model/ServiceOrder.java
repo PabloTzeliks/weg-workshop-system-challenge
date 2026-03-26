@@ -58,6 +58,13 @@ public class ServiceOrder {
         this.students = students;
     }
 
+    public ServiceOrder(String equipment, String reportedDefect, User teacher, List<User> students) {
+        this.equipment = equipment;
+        this.reportedDefect = reportedDefect;
+        this.responsibleTeacher = teacher;
+        this.students = students;
+    }
+
     public ServiceOrder() { }
 
     public Integer getId() {
@@ -90,5 +97,17 @@ public class ServiceOrder {
 
     public List<User> getStudents() {
         return students;
+    }
+
+    public void setUsedMaterials(String usedMaterials) {
+        this.usedMaterials = usedMaterials;
+    }
+
+    public void setTechnicalConclusion(String technicalConclusion) {
+        this.technicalConclusion = technicalConclusion;
+    }
+
+    public void setStatus(StatusSO status) {
+        this.status = status;
     }
 }

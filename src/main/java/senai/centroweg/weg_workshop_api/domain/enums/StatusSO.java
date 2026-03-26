@@ -5,5 +5,5 @@ public enum StatusSO {
     OPEN,
     IN_PROGRESS,
     WAITING_APPROVAL,
-    CLOSED
+    CONCLUDED
 }
