@@ -7,11 +7,15 @@ import java.util.List;
 
 public record ClassResponseDTO (
 
-    @JsonProperty("id") Integer id,
+    @JsonProperty("id")
+    Integer id,
 
-    @JsonProperty("name") String name,
+    @JsonProperty("name")
+    String name,
 
-    @JsonProperty("teacher") User teacher,
+    @JsonProperty("teacher")
+    User teacher,
 
-    @JsonProperty("students") List<User> students
+    @JsonProperty("students")
+    List<User> students
 ) { }

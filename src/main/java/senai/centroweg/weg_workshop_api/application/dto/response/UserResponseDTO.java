@@ -5,9 +5,12 @@ import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 
 public record UserResponseDTO (
 
-    @JsonProperty("id") Integer id,
+    @JsonProperty("id")
+    Integer id,
 
-    @JsonProperty("name") String name,
+    @JsonProperty("name")
+    String name,
 
-    @JsonProperty("user_type") UserType userType
+    @JsonProperty("user_type")
+    UserType userType
 ) { }
