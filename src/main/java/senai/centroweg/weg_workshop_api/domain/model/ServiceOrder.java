@@ -19,10 +19,10 @@ public class ServiceOrder {
     @Column(name = "reported_defect", nullable = false)
     String reportedDefect;
 
-    @Column(name = "used_materials", nullable = false)
+    @Column(name = "used_materials")
     String usedMaterials;
 
-    @Column(name = "technical_conclusion", nullable = false)
+    @Column(name = "technical_conclusion")
     String technicalConclusion;
 
     @Column(name = "status", nullable = false)
