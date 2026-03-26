@@ -2,6 +2,11 @@ package senai.centroweg.weg_workshop_api.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import senai.centroweg.weg_workshop_api.application.dto.request.ServiceOrderApproveRequestDTO;
+import senai.centroweg.weg_workshop_api.application.dto.request.ServiceOrderExecuteRequestDTO;
+import senai.centroweg.weg_workshop_api.application.dto.request.ServiceOrderRequestDTO;
+import senai.centroweg.weg_workshop_api.application.dto.response.ServiceOrderResponseDTO;
+import senai.centroweg.weg_workshop_api.application.mapper.ServiceOrderMapper;
 import senai.centroweg.weg_workshop_api.domain.enums.StatusSO;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
@@ -16,17 +21,25 @@ public class ServiceOrderService {
 
     private final ServiceOrderRepositoryPort serviceOrderRepositoryPort;
     private final UserRepositoryPort userRepositoryPort;
+    private final ServiceOrderMapper serviceOrderMapper;
 
     @Autowired
-    public ServiceOrderService(ServiceOrderRepositoryPort serviceOrderRepositoryPort, UserRepositoryPort userRepositoryPort) {
+    public ServiceOrderService(ServiceOrderRepositoryPort serviceOrderRepositoryPort,
+                               UserRepositoryPort userRepositoryPort,
+                               ServiceOrderMapper serviceOrderMapper) {
+
         this.serviceOrderRepositoryPort = serviceOrderRepositoryPort;
         this.userRepositoryPort = userRepositoryPort;
+        this.serviceOrderMapper = serviceOrderMapper;
     }
 
-    public ServiceOrder openServiceOrder(Integer teacherId, String equipment, String reportedDefect, List<Integer> studentIds) {
+    public ServiceOrderResponseDTO openServiceOrder(ServiceOrderRequestDTO requestDTO) {
+        Integer teacherId = requestDTO.teacherId();
+        List<Integer> studentIds = requestDTO.studentIds();
+
         User teacher = userRepositoryPort.findById(teacherId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        
+
         if (teacher.getUserType() != UserType.TEACHER) {
             throw new RuntimeException("Only teachers can open service orders");
         }
@@ -36,12 +49,20 @@ public class ServiceOrderService {
                         .orElseThrow(() -> new RuntimeException("Student not found: " + id)))
                 .toList();
 
-        ServiceOrder serviceOrder = new ServiceOrder(equipment, reportedDefect, teacher, students);
+        ServiceOrder serviceOrder = serviceOrderMapper.toEntity(requestDTO);
+        serviceOrder.setResponsibleTeacher(teacher);
+        serviceOrder.setStudents(students);
         serviceOrder.setStatus(StatusSO.OPEN);
-        return serviceOrderRepositoryPort.save(serviceOrder);
+
+        return serviceOrderMapper.toResponseDTO(serviceOrderRepositoryPort.save(serviceOrder));
     }
 
-    public ServiceOrder executeServiceOrder(Integer serviceOrderId, Integer studentId, String usedMaterials, String technicalConclusion) {
+    public ServiceOrderResponseDTO executeServiceOrder(ServiceOrderExecuteRequestDTO requestDTO) {
+        Integer serviceOrderId = requestDTO.serviceOrderId();
+        Integer studentId = requestDTO.studentId();
+        String usedMaterials = requestDTO.usedMaterials();
+        String technicalConclusion = requestDTO.technicalConclusion();
+
         ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(serviceOrderId)
                 .orElseThrow(() -> new RuntimeException("Service order not found"));
 
@@ -57,10 +78,13 @@ public class ServiceOrderService {
         serviceOrder.setTechnicalConclusion(technicalConclusion);
         serviceOrder.setStatus(StatusSO.WAITING_APPROVAL);
 
-        return serviceOrderRepositoryPort.save(serviceOrder);
+        return serviceOrderMapper.toResponseDTO(serviceOrderRepositoryPort.save(serviceOrder));
     }
 
-    public ServiceOrder approveServiceOrder(Integer serviceOrderId, Integer teacherId) {
+    public ServiceOrderResponseDTO approveServiceOrder(ServiceOrderApproveRequestDTO requestDTO) {
+        Integer serviceOrderId = requestDTO.serviceOrderId();
+        Integer teacherId = requestDTO.teacherId();
+
         ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(serviceOrderId)
                 .orElseThrow(() -> new RuntimeException("Service order not found"));
 
@@ -74,6 +98,6 @@ public class ServiceOrderService {
 
         serviceOrder.setStatus(StatusSO.CONCLUDED);
 
-        return serviceOrderRepositoryPort.save(serviceOrder);
+        return serviceOrderMapper.toResponseDTO(serviceOrderRepositoryPort.save(serviceOrder));
     }
 }
