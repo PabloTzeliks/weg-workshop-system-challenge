@@ -24,6 +24,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
+    public Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public Optional<User> findByName(String name) {
         return userRepository.findByName(name);
     }

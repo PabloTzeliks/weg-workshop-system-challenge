@@ -6,6 +6,7 @@ import senai.centroweg.weg_workshop_api.domain.model.Class;
 import senai.centroweg.weg_workshop_api.domain.ports.ClassRepositoryPort;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ClassRepositoryAdapter implements ClassRepositoryPort {
@@ -20,6 +21,11 @@ public class ClassRepositoryAdapter implements ClassRepositoryPort {
     @Override
     public Class save(Class entity) {
         return classRepository.save(entity);
+    }
+
+    @Override
+    public Optional<Class> findById(Integer id) {
+        return classRepository.findById(id);
     }
 
     @Override

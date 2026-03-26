@@ -2,13 +2,9 @@ package senai.centroweg.weg_workshop_api.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import senai.centroweg.weg_workshop_api.application.dto.request.UserRequestDTO;
-import senai.centroweg.weg_workshop_api.application.dto.response.UserResponseDTO;
-import senai.centroweg.weg_workshop_api.application.mapper.UserMapper;
+import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 import senai.centroweg.weg_workshop_api.domain.model.User;
 import senai.centroweg.weg_workshop_api.domain.ports.UserRepositoryPort;
-import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
-import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,23 +12,23 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepositoryPort userRepositoryPort;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(UserRepositoryPort userRepositoryPort) {
+        this.userRepositoryPort = userRepositoryPort;
     }
 
     public User createUser(String name, UserType userType) {
         User user = new User(name, userType);
-        return userRepository.save(user);
+        return userRepositoryPort.save(user);
     }
 
     public List<User> listAll() {
-        return userRepository.findAll();
+        return userRepositoryPort.listAll();
     }
 
     public Optional<User> findById(Integer id) {
-        return userRepository.findById(id);
+        return userRepositoryPort.findById(id);
     }
 }

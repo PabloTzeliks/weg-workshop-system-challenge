@@ -7,6 +7,7 @@ import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
 import senai.centroweg.weg_workshop_api.domain.ports.ServiceOrderRepositoryPort;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ServiceOrderRepositoryAdapter implements ServiceOrderRepositoryPort {
@@ -24,8 +25,8 @@ public class ServiceOrderRepositoryAdapter implements ServiceOrderRepositoryPort
     }
 
     @Override
-    public ServiceOrder findById(Long id) {
-        return serviceOrderRepository.findById(id).orElse(null);
+    public Optional<ServiceOrder> findById(Integer id) {
+        return serviceOrderRepository.findById(id);
     }
 
     @Override

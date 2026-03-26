@@ -7,8 +7,6 @@ import senai.centroweg.weg_workshop_api.domain.model.Class;
 import senai.centroweg.weg_workshop_api.domain.model.User;
 import senai.centroweg.weg_workshop_api.domain.ports.ClassRepositoryPort;
 import senai.centroweg.weg_workshop_api.domain.ports.UserRepositoryPort;
-import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.ClassRepository;
-import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
 
 import java.util.List;
 
@@ -18,13 +16,11 @@ public class ClassService {
     private final ClassRepositoryPort classRepository;
     private final UserRepositoryPort userRepository;
 
+    @Autowired
     public ClassService(ClassRepositoryPort classRepository, UserRepositoryPort userRepository) {
         this.classRepository = classRepository;
         this.userRepository = userRepository;
     }
-
-    @Autowired
-
 
     public Class createClass(String name, Integer teacherId, List<Integer> studentIds) {
         User teacher = userRepository.findById(teacherId)

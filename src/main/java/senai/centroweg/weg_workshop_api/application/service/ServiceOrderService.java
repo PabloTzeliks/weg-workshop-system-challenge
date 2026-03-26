@@ -4,32 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import senai.centroweg.weg_workshop_api.domain.enums.StatusSO;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
-import senai.centroweg.weg_workshop_api.application.dto.request.ServiceOrderRequestDTO;
-import senai.centroweg.weg_workshop_api.application.dto.response.ServiceOrderResponseDTO;
-import senai.centroweg.weg_workshop_api.application.mapper.ServiceOrderMapper;
 import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
+import senai.centroweg.weg_workshop_api.domain.model.User;
 import senai.centroweg.weg_workshop_api.domain.ports.ServiceOrderRepositoryPort;
 import senai.centroweg.weg_workshop_api.domain.ports.UserRepositoryPort;
-import senai.centroweg.weg_workshop_api.domain.model.User;
-import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.ServiceOrderRepository;
-import senai.centroweg.weg_workshop_api.infrastructure.persistency.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 public class ServiceOrderService {
 
-    private final ServiceOrderRepository serviceOrderRepository;
-    private final UserRepository userRepository;
+    private final ServiceOrderRepositoryPort serviceOrderRepositoryPort;
+    private final UserRepositoryPort userRepositoryPort;
 
     @Autowired
-    public ServiceOrderService(ServiceOrderRepository serviceOrderRepository, UserRepository userRepository) {
-        this.serviceOrderRepository = serviceOrderRepository;
-        this.userRepository = userRepository;
+    public ServiceOrderService(ServiceOrderRepositoryPort serviceOrderRepositoryPort, UserRepositoryPort userRepositoryPort) {
+        this.serviceOrderRepositoryPort = serviceOrderRepositoryPort;
+        this.userRepositoryPort = userRepositoryPort;
     }
 
     public ServiceOrder openServiceOrder(Integer teacherId, String equipment, String reportedDefect, List<Integer> studentIds) {
-        User teacher = userRepository.findById(teacherId)
+        User teacher = userRepositoryPort.findById(teacherId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         if (teacher.getUserType() != UserType.TEACHER) {
@@ -37,17 +32,17 @@ public class ServiceOrderService {
         }
 
         List<User> students = studentIds.stream()
-                .map(id -> userRepository.findById(id)
+                .map(id -> userRepositoryPort.findById(id)
                         .orElseThrow(() -> new RuntimeException("Student not found: " + id)))
                 .toList();
 
         ServiceOrder serviceOrder = new ServiceOrder(equipment, reportedDefect, teacher, students);
         serviceOrder.setStatus(StatusSO.OPEN);
-        return serviceOrderRepository.save(serviceOrder);
+        return serviceOrderRepositoryPort.save(serviceOrder);
     }
 
     public ServiceOrder executeServiceOrder(Integer serviceOrderId, Integer studentId, String usedMaterials, String technicalConclusion) {
-        ServiceOrder serviceOrder = serviceOrderRepository.findById(serviceOrderId)
+        ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(serviceOrderId)
                 .orElseThrow(() -> new RuntimeException("Service order not found"));
 
         if (serviceOrder.getStatus() != StatusSO.OPEN) {
@@ -62,11 +57,11 @@ public class ServiceOrderService {
         serviceOrder.setTechnicalConclusion(technicalConclusion);
         serviceOrder.setStatus(StatusSO.WAITING_APPROVAL);
 
-        return serviceOrderRepository.save(serviceOrder);
+        return serviceOrderRepositoryPort.save(serviceOrder);
     }
 
     public ServiceOrder approveServiceOrder(Integer serviceOrderId, Integer teacherId) {
-        ServiceOrder serviceOrder = serviceOrderRepository.findById(serviceOrderId)
+        ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(serviceOrderId)
                 .orElseThrow(() -> new RuntimeException("Service order not found"));
 
         if (serviceOrder.getStatus() != StatusSO.WAITING_APPROVAL) {
@@ -79,6 +74,6 @@ public class ServiceOrderService {
 
         serviceOrder.setStatus(StatusSO.CONCLUDED);
 
-        return serviceOrderRepository.save(serviceOrder);
+        return serviceOrderRepositoryPort.save(serviceOrder);
     }
 }

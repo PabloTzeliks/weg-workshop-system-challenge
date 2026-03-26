@@ -7,6 +7,7 @@ import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
 import java.util.List;
 
 public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Integer> {
+
     List<ServiceOrder> findByStatus(StatusSO status);
     List<ServiceOrder> findByResponsibleTeacherId(Integer teacherId);
 }

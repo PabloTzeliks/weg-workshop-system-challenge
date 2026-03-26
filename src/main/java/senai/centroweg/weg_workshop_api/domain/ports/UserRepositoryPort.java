@@ -9,6 +9,8 @@ public interface UserRepositoryPort {
 
     User save(User save);
 
+    Optional<User> findById(Integer id);
+
     Optional<User> findByName(String name);
 
     List<User> listAll();
