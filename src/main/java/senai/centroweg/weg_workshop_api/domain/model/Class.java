@@ -20,7 +20,7 @@ public class Class {
     User teacher;
 
     @JoinColumn(name = "students", nullable = false)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     List<User> students;
 
     public Class(String name, User teacher, List<User> students) {
