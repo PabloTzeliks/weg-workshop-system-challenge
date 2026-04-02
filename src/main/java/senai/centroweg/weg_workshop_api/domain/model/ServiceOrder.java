@@ -65,6 +65,22 @@ public class ServiceOrder {
         this.students = students;
     }
 
+    public void executeOrder(Integer studentId, String usedMaterials, String technicalConclusion) {
+        if (this.status != StatusSO.OPEN) {
+            throw new RuntimeException("Service order is not open for execution");
+        }
+        boolean isAssignedStudent = this.students.stream()
+                .anyMatch(student -> student.getId().equals(studentId));
+
+        if (!isAssignedStudent) {
+            throw new RuntimeException("Student not assigned to this service order");
+        }
+
+        this.usedMaterials = usedMaterials;
+        this.technicalConclusion = technicalConclusion;
+        this.status = StatusSO.WAITING_APPROVAL;
+    }
+
     public ServiceOrder() { }
 
     public Integer getId() {
