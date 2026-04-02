@@ -8,6 +8,7 @@ import senai.centroweg.weg_workshop_api.application.dto.response.ServiceOrderRes
 import senai.centroweg.weg_workshop_api.application.mapper.ServiceOrderMapper;
 import senai.centroweg.weg_workshop_api.domain.enums.StatusSO;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
+import senai.centroweg.weg_workshop_api.domain.exception.BusinessException;
 import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
 import senai.centroweg.weg_workshop_api.domain.model.User;
 import senai.centroweg.weg_workshop_api.domain.ports.ServiceOrderRepositoryPort;
@@ -32,19 +33,16 @@ public class ServiceOrderService {
     }
 
     public ServiceOrderResponseDTO openServiceOrder(ServiceOrderRequestDTO requestDTO) {
-        Integer teacherId = requestDTO.teacherId();
-        List<Integer> studentIds = requestDTO.studentIds();
-
-        User teacher = userRepositoryPort.findById(teacherId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User teacher = userRepositoryPort.findById(requestDTO.teacherId())
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado."));
 
         if (teacher.getUserType() != UserType.TEACHER) {
-            throw new RuntimeException("Only teachers can open service orders");
+            throw new BusinessException("Apenas professores podem abrir ordens de serviço.");
         }
 
-        List<User> students = studentIds.stream()
+        List<User> students = requestDTO.studentIds().stream()
                 .map(id -> userRepositoryPort.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Student not found: " + id)))
+                        .orElseThrow(() -> new BusinessException("Aluno não encontrado: " + id)))
                 .toList();
 
         ServiceOrder serviceOrder = serviceOrderMapper.toEntity(requestDTO);
@@ -56,45 +54,23 @@ public class ServiceOrderService {
     }
 
     public ServiceOrderResponseDTO executeServiceOrder(ServiceOrderExecuteRequestDTO requestDTO) {
-        Integer serviceOrderId = requestDTO.serviceOrderId();
-        Integer studentId = requestDTO.studentId();
-        String usedMaterials = requestDTO.usedMaterials();
-        String technicalConclusion = requestDTO.technicalConclusion();
+        ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(requestDTO.serviceOrderId())
+                .orElseThrow(() -> new BusinessException("Ordem de serviço não encontrada."));
 
-        ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(serviceOrderId)
-                .orElseThrow(() -> new RuntimeException("Service order not found"));
-
-        if (serviceOrder.getStatus() != StatusSO.OPEN) {
-            throw new RuntimeException("Service order is not open for execution");
-        }
-
-        if (!serviceOrder.getStudents().stream().anyMatch(student -> student.getId().equals(studentId))) {
-            throw new RuntimeException("Student not assigned to this service order");
-        }
-
-        serviceOrder.setUsedMaterials(usedMaterials);
-        serviceOrder.setTechnicalConclusion(technicalConclusion);
-        serviceOrder.setStatus(StatusSO.WAITING_APPROVAL);
+        serviceOrder.executeOrder(
+                requestDTO.studentId(),
+                requestDTO.usedMaterials(),
+                requestDTO.technicalConclusion()
+        );
 
         return serviceOrderMapper.toResponseDTO(serviceOrderRepositoryPort.save(serviceOrder));
     }
 
     public ServiceOrderResponseDTO approveServiceOrder(ServiceOrderApproveRequestDTO requestDTO) {
-        Integer serviceOrderId = requestDTO.serviceOrderId();
-        Integer teacherId = requestDTO.teacherId();
+        ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(requestDTO.serviceOrderId())
+                .orElseThrow(() -> new BusinessException("Ordem de serviço não encontrada."));
 
-        ServiceOrder serviceOrder = serviceOrderRepositoryPort.findById(serviceOrderId)
-                .orElseThrow(() -> new RuntimeException("Service order not found"));
-
-        if (serviceOrder.getStatus() != StatusSO.WAITING_APPROVAL) {
-            throw new RuntimeException("Service order is not waiting for approval");
-        }
-
-        if (!serviceOrder.getResponsibleTeacher().getId().equals(teacherId)) {
-            throw new RuntimeException("Only the responsible teacher can approve");
-        }
-
-        serviceOrder.setStatus(StatusSO.CONCLUDED);
+        serviceOrder.approveOrder(requestDTO.teacherId());
 
         return serviceOrderMapper.toResponseDTO(serviceOrderRepositoryPort.save(serviceOrder));
     }

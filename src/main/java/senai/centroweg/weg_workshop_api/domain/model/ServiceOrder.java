@@ -140,4 +140,12 @@ public class ServiceOrder {
     public void setStatus(StatusSO status) {
         this.status = status;
     }
+
+    public void setResponsibleTeacher(User responsibleTeacher) {
+        this.responsibleTeacher = responsibleTeacher;
+    }
+
+    public void setStudents(List<User> students) {
+        this.students = students;
+    }
 }

@@ -5,15 +5,19 @@ import jakarta.validation.constraints.NotNull;
 
 public record ServiceOrderExecuteRequestDTO (
 
-    @JsonProperty("student_id")
-    @NotNull(message = "Student ID is mandatory")
-    Integer studentId,
+        @JsonProperty("id")
+        @NotNull(message = "Service Order ID is mandatory")
+        Integer serviceOrderId,
 
-    @JsonProperty("used_materials")
-    @NotNull(message = "Used materials are mandatory")
-    String usedMaterials,
+        @JsonProperty("student_id")
+        @NotNull(message = "Student ID is mandatory")
+        Integer studentId,
 
-    @JsonProperty("technical_conclusion")
-    @NotNull(message = "Technical conclusion is mandatory")
-    String technicalConclusion
+        @JsonProperty("used_materials")
+        @NotNull(message = "Used materials are mandatory")
+        String usedMaterials,
+
+        @JsonProperty("technical_conclusion")
+        @NotNull(message = "Technical conclusion is mandatory")
+        String technicalConclusion
 ) { }
