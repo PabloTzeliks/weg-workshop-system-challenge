@@ -3,7 +3,7 @@ package senai.centroweg.weg_workshop_api.application.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
-public record ServiceOrderExecuteRequestDTO (
+public record ServiceOrderExecuteRequestDTO(
 
         @JsonProperty("id")
         @NotNull(message = "Service Order ID is mandatory")

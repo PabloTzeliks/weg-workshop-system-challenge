@@ -5,7 +5,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record ServiceOrderApproveRequestDTO (
 
-    @JsonProperty("teacher_id")
-    @NotNull(message = "Teacher ID is mandatory")
-    Integer teacherId
+        @JsonProperty("id")
+        @NotNull(message = "Service Order ID is mandatory")
+        Integer serviceOrderId,
+
+        @JsonProperty("teacher_id")
+        @NotNull(message = "Teacher ID is mandatory")
+        Integer teacherId
 ) { }

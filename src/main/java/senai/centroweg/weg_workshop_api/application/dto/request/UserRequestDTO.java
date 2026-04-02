@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import senai.centroweg.weg_workshop_api.domain.enums.UserType;
 
-public record UserRequestDTO (
+public record UserRequestDTO(
 
-    @JsonProperty("name")
-    @NotBlank(message = "Name is mandatory")
-    String name,
+        @JsonProperty("name")
+        @NotBlank(message = "Name is mandatory")
+        String name,
 
-    @JsonProperty("userType")
-    @NotNull(message = "User type is mandatory")
-    UserType userType
+        @JsonProperty("userType")
+        @NotNull(message = "User type is mandatory")
+        UserType userType
 ) { }
