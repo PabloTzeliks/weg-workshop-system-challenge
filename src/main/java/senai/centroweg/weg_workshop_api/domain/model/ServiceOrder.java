@@ -2,6 +2,7 @@ package senai.centroweg.weg_workshop_api.domain.model;
 
 import jakarta.persistence.*;
 import senai.centroweg.weg_workshop_api.domain.enums.StatusSO;
+import senai.centroweg.weg_workshop_api.domain.exception.BusinessException;
 
 import java.util.List;
 
@@ -67,18 +68,31 @@ public class ServiceOrder {
 
     public void executeOrder(Integer studentId, String usedMaterials, String technicalConclusion) {
         if (this.status != StatusSO.OPEN) {
-            throw new RuntimeException("Service order is not open for execution");
+            throw new BusinessException("A Ordem de Serviço não está aberta para execução.");
         }
-        boolean isAssignedStudent = this.students.stream()
+
+        boolean isAssignedStudent = this.students != null && this.students.stream()
                 .anyMatch(student -> student.getId().equals(studentId));
 
         if (!isAssignedStudent) {
-            throw new RuntimeException("Student not assigned to this service order");
+            throw new BusinessException("O aluno informado não está atribuído a esta Ordem de Serviço.");
         }
 
         this.usedMaterials = usedMaterials;
         this.technicalConclusion = technicalConclusion;
         this.status = StatusSO.WAITING_APPROVAL;
+    }
+
+    public void approveOrder(Integer teacherId) {
+        if (this.status != StatusSO.WAITING_APPROVAL) {
+            throw new BusinessException("A Ordem de Serviço não está aguardando aprovação.");
+        }
+
+        if (this.responsibleTeacher == null || !this.responsibleTeacher.getId().equals(teacherId)) {
+            throw new BusinessException("Apenas o professor responsável pela abertura pode aprovar esta Ordem de Serviço.");
+        }
+
+        this.status = StatusSO.CONCLUDED;
     }
 
     public ServiceOrder() { }
