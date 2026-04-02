@@ -1,5 +1,6 @@
 package senai.centroweg.weg_workshop_api.infrastructure.web.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,19 +21,19 @@ public class ServiceOrderController {
     }
 
     @PostMapping
-    public ResponseEntity<ServiceOrderResponseDTO> openServiceOrder(@RequestBody ServiceOrderRequestDTO requestDTO) {
+    public ResponseEntity<ServiceOrderResponseDTO> openServiceOrder(@RequestBody @Valid ServiceOrderRequestDTO requestDTO) {
         ServiceOrderResponseDTO response = serviceOrderService.openServiceOrder(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/execute")
-    public ResponseEntity<ServiceOrderResponseDTO> executeServiceOrder(@RequestBody ServiceOrderExecuteRequestDTO requestDTO) {
+    public ResponseEntity<ServiceOrderResponseDTO> executeServiceOrder(@RequestBody @Valid ServiceOrderExecuteRequestDTO requestDTO) {
         ServiceOrderResponseDTO response = serviceOrderService.executeServiceOrder(requestDTO);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/approve")
-    public ResponseEntity<ServiceOrderResponseDTO> approveServiceOrder(@RequestBody ServiceOrderApproveRequestDTO requestDTO) {
+    public ResponseEntity<ServiceOrderResponseDTO> approveServiceOrder(@RequestBody @Valid ServiceOrderApproveRequestDTO requestDTO) {
         ServiceOrderResponseDTO response = serviceOrderService.approveServiceOrder(requestDTO);
         return ResponseEntity.ok(response);
     }

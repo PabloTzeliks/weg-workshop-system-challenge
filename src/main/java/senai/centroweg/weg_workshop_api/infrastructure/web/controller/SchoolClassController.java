@@ -1,5 +1,6 @@
 package senai.centroweg.weg_workshop_api.infrastructure.web.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class SchoolClassController {
     }
 
     @PostMapping
-    public ResponseEntity<SchoolClass> createClass(@RequestBody SchoolClassRequestDTO request) {
+    public ResponseEntity<SchoolClass> createClass(@RequestBody @Valid SchoolClassRequestDTO request) {
 
         SchoolClass newClass = schoolClassService.createClass(
                 request.name(),
