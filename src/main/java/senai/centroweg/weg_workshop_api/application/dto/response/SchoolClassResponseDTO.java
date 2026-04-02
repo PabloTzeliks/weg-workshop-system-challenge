@@ -5,7 +5,7 @@ import senai.centroweg.weg_workshop_api.domain.model.User;
 
 import java.util.List;
 
-public record ClassResponseDTO (
+public record SchoolClassResponseDTO(
 
     @JsonProperty("id")
     Integer id,

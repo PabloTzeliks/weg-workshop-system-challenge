@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record ClassRequestDTO(
+public record SchoolClassRequestDTO(
         @JsonProperty("name")
         @NotBlank(message = "Name is mandatory")
         String name,

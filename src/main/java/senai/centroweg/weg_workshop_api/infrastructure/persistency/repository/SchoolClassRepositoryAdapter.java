@@ -1,33 +1,33 @@
 package senai.centroweg.weg_workshop_api.infrastructure.persistency.repository;
 
 import org.springframework.stereotype.Repository;
-import senai.centroweg.weg_workshop_api.domain.model.Class;
+import senai.centroweg.weg_workshop_api.domain.model.SchoolClass;
 import senai.centroweg.weg_workshop_api.domain.ports.ClassRepositoryPort;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ClassRepositoryAdapter implements ClassRepositoryPort {
+public class SchoolClassRepositoryAdapter implements ClassRepositoryPort {
 
-    private final ClassRepository classRepository;
+    private final SchoolClassRepository classRepository;
 
-    public ClassRepositoryAdapter(ClassRepository classRepository) {
+    public SchoolClassRepositoryAdapter(SchoolClassRepository classRepository) {
         this.classRepository = classRepository;
     }
 
     @Override
-    public Class save(Class entity) {
+    public SchoolClass save(SchoolClass entity) {
         return classRepository.save(entity);
     }
 
     @Override
-    public Optional<Class> findById(Integer id) {
+    public Optional<SchoolClass> findById(Integer id) {
         return classRepository.findById(id);
     }
 
     @Override
-    public List<Class> listAll() {
+    public List<SchoolClass> listAll() {
         return classRepository.findAll();
     }
 }

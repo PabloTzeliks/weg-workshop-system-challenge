@@ -1,15 +1,15 @@
 package senai.centroweg.weg_workshop_api.domain.ports;
 
-import senai.centroweg.weg_workshop_api.domain.model.Class;
+import senai.centroweg.weg_workshop_api.domain.model.SchoolClass;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ClassRepositoryPort {
 
-    Class save(Class entity);
+    SchoolClass save(SchoolClass entity);
 
-    Optional<Class> findById(Integer id);
+    Optional<SchoolClass> findById(Integer id);
 
-    List<Class> listAll();
+    List<SchoolClass> listAll();
 }
