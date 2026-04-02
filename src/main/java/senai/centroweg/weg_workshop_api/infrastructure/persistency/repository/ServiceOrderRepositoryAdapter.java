@@ -1,6 +1,5 @@
 package senai.centroweg.weg_workshop_api.infrastructure.persistency.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import senai.centroweg.weg_workshop_api.domain.enums.StatusSO;
 import senai.centroweg.weg_workshop_api.domain.model.ServiceOrder;
@@ -14,7 +13,6 @@ public class ServiceOrderRepositoryAdapter implements ServiceOrderRepositoryPort
 
     private final ServiceOrderRepository serviceOrderRepository;
 
-    @Autowired
     public ServiceOrderRepositoryAdapter(ServiceOrderRepository serviceOrderRepository) {
         this.serviceOrderRepository = serviceOrderRepository;
     }

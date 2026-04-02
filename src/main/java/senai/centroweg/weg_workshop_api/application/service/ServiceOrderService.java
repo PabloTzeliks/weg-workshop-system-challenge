@@ -1,6 +1,5 @@
 package senai.centroweg.weg_workshop_api.application.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import senai.centroweg.weg_workshop_api.application.dto.request.ServiceOrderApproveRequestDTO;
 import senai.centroweg.weg_workshop_api.application.dto.request.ServiceOrderExecuteRequestDTO;
@@ -23,7 +22,6 @@ public class ServiceOrderService {
     private final UserRepositoryPort userRepositoryPort;
     private final ServiceOrderMapper serviceOrderMapper;
 
-    @Autowired
     public ServiceOrderService(ServiceOrderRepositoryPort serviceOrderRepositoryPort,
                                UserRepositoryPort userRepositoryPort,
                                ServiceOrderMapper serviceOrderMapper) {

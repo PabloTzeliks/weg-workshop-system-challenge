@@ -1,6 +1,5 @@
 package senai.centroweg.weg_workshop_api.application.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import senai.centroweg.weg_workshop_api.application.dto.request.UserRequestDTO;
 import senai.centroweg.weg_workshop_api.application.dto.response.UserResponseDTO;
@@ -17,7 +16,6 @@ public class UserService {
     private final UserRepositoryPort userRepositoryPort;
     private final UserMapper userMapper;
 
-    @Autowired
     public UserService(UserRepositoryPort userRepositoryPort, UserMapper userMapper) {
         this.userRepositoryPort = userRepositoryPort;
         this.userMapper = userMapper;

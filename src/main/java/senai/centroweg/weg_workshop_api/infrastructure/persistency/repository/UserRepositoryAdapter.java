@@ -13,7 +13,6 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserRepositoryAdapter(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

@@ -16,7 +16,6 @@ public class ClassService {
     private final ClassRepositoryPort classRepository;
     private final UserRepositoryPort userRepository;
 
-    @Autowired
     public ClassService(ClassRepositoryPort classRepository, UserRepositoryPort userRepository) {
         this.classRepository = classRepository;
         this.userRepository = userRepository;
