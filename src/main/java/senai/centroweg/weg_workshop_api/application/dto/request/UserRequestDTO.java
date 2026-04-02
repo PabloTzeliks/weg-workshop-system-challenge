@@ -11,7 +11,7 @@ public record UserRequestDTO(
         @NotBlank(message = "Name is mandatory")
         String name,
 
-        @JsonProperty("userType")
+        @JsonProperty("user_type")
         @NotNull(message = "User type is mandatory")
         UserType userType
 ) { }
